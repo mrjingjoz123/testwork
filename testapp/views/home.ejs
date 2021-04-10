@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+
+<body>
+    <h1>ข้อที่ 1</h1>
+    <div>
+        รถยี้ห่อ <%= cars[0].id %> ขายได้
+            <b id="a"></b>
+            <b>%</b>
+    </div>
+
+    <div>
+        รถยี้ห่อ <%= cars[1].id %> ขายได้
+            <b id="b"></b>
+            <b>%</b>
+    </div>
+    <div>
+        รถยี้ห่อ <%= cars[2].id %> ขายได้
+            <b id="c"></b>
+            <b>%</b>
+    </div>
+    <h1>ข้อที่ 2</h1>
+    <input type="text" id="st"></input>
+    <button type="button" onclick="check()">ตรวจสอบ</button>
+    <br>
+    <b id="d"></b>
+    <h1>ข้อที่ 3</h1>
+    <div>
+        a. ผลลัพท์ของคำสั่งนี้คือ
+        <br>
+        a = 1,b = 2, c = "
+        <br>
+        something went wrong
+        <br>
+        เนื่องจาก a b c ถูกประกาศขึ้นมา แล้วตอน log ใช้ ${} จะเป็นการใช้ตัวแปล
+        <br>
+        b ไม่เท่ากับ a เนื่องจากตอนที่ a+=0 เท่ากับ a = a+ 0 ได้ a ละ a + c ได้ 1 ที่เป็น string
+        <br>
+        เมื่อ เช็ค === จะได้ 1 === '1' ทำให้ a กับ b ไม่เท่ากัน
+        <br>
+        b. ผลลัพท์ของคำสั่งนี้เหมือนหรือต่างกัน
+        <br>
+        เหมือนกัน เพราะ ฟังก์ชัน return ผลลัพท์เดียวกัน
+    </div>
+    <h1>ข้อที่ 4</h1>
+    <input type="number" id="num1"></input>
+    <input type="number" id="num2"></input>
+    <button type="button" onclick="checkNum()">ตรวจสอบ</button>
+    <br>
+    <b id="e"></b>
+    <h1>ข้อที่ 5</h1>
+    <b id="f"></b>
+    <br>
+    <h1>ข้อที่ 6</h1>
+    <input type="text" id="number" />
+    <button type="button" onclick="checkNumber()">ตรวจสอบ</button>
+    <br>
+    <b>ได้ทอง</b>
+    <b id="g"></b>
+    <b id="h"></b>
+
+</body>
+
+</html>
+<script>
+    //ข้อที่ 1
+    let sum = parseInt('<%= cars[0].total + cars[1].total + cars[2].total %>');
+    let a = parseInt('<%= cars[0].total%>')
+    let b = parseInt('<%= cars[1].total%>')
+    let c = parseInt('<%= cars[2].total%>')
+    let ans = [a / sum * 100, b / sum * 100, c / sum * 100]
+    document.getElementById('a').innerHTML = ans[0]
+    document.getElementById('b').innerHTML = ans[1]
+    document.getElementById('c').innerHTML = ans[2]
+    //ข้อที่ 2
+    function check() {
+        let str = document.getElementById("st").value
+        let ans2 = isBalanced(str)
+        document.getElementById('d').innerHTML = ans2
+
+    }
+    function isBalanced(string) {
+        var balanced = true;
+        var parts = string.split('');
+        var openBraces = /{|\[|\(/;
+        var closeBraces = /}|\]|\)/;
+        var stack = [];
+
+        for (var i = 0; i < parts.length; i++) {
+            if (parts[i].match(openBraces)) {
+                stack.push(parts[i]);
+            } else if (parts[i].match(closeBraces)) {
+                var lastChar = stack[stack.length - 1];
+                if (parts[i] === '}' && lastChar !== '{') {
+                    balanced = false;
+                } else if (parts[i] === ']' && lastChar !== '[') {
+                    balanced = false;
+                } else if (parts[i] === ')' && lastChar !== '(') {
+                    balanced = false;
+                } else {
+                    stack.pop();
+                }
+            }
+        }
+        return balanced;
+    }
+    //ข้อที่ 4
+    function checkNum() {
+        let num1 = parseInt(document.getElementById("num1").value)
+        let num2 = parseInt(document.getElementById("num2").value)
+        let ans4 = 0
+
+        for (let i = num1; i <= num2; i++) {
+            ans4 = parseInt(i + ans4)
+
+        }
+        document.getElementById('e').innerHTML = ans4
+    }
+    //ข้อที่ 5
+    let Country
+    let Region
+    let Result = []
+    getCountry()
+    getRegion()
+    result()
+
+    document.getElementById('f').innerHTML = Result
+
+    async function getCountry() {
+        Country = [{
+            "name": "Thailand",
+            "abbr": "TH",
+            "remark": "",
+            "regionId": 1
+        },
+        {
+            "name": "Singapore",
+            "abbr": "SG",
+            "remark": "This is sg",
+            "regionId": 1
+        },
+        {
+            "name": "United State",
+            "abbr": "US",
+            "remark": "",
+            "regionId": 7
+        }]
+    }
+    async function getRegion() {
+        Region = [{
+            "id": 1,
+            "name": "Asia"
+        },
+        {
+            "id": 2,
+            "name": "South America"
+        },
+        {
+            "id": 7,
+            "name": "North America"
+        }]
+    }
+    async function result() {
+        for (let i = 0; i < Country.length; i++) {
+            for (let j = 0; j < Region.length; j++) {
+                if (Country[i].regionId == Region[j].id) {
+                    Result.push([Country[i].abbr, Region[j].name])
+                }
+            }
+        }
+    }
+    //ข้อ 6
+    async function checkNumber() {
+        let number = document.getElementById("number").value
+        var NumberSum = number.split(" ")
+        let checkMax = 0
+        let checkMax1 = 0
+        let sumCheck = 0
+        let total = 0
+        let sumTotal = 0
+        let a
+        let b
+        let c
+        for (let i = 0; i < NumberSum.length; i++) {
+            total = total + parseInt(NumberSum[i])
+            if (checkMax1 < NumberSum[i]) {
+                checkMax1 = parseInt(NumberSum[i])
+                c = parseInt(i) + 1
+            }
+            for (let j = 0; j < NumberSum.length; j++) {
+                if (j > i && i != j && j - i == 1) {
+                    sumTotal = total + parseInt(NumberSum[j])
+                    if (checkMax < sumTotal) {
+                        checkMax = sumTotal
+                        a = parseInt(j) - parseInt(i)
+                        b = parseInt(j) + 1
+                    }
+                }
+            }
+        }
+        if (checkMax > checkMax1) {
+            document.getElementById('g').innerHTML = checkMax
+            document.getElementById('h').innerHTML = 'กองที่' + a + 'ถึง กองที่' + b
+
+        } else {
+            document.getElementById('g').innerHTML = checkMax1
+            document.getElementById('h').innerHTML = 'กองที่' + c
+
+        }
+
+
+    }
+
+
+</script>
